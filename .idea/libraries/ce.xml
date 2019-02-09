@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ce">
+    <CLASSES>
+      <root url="file:///usr/share/java" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file:///usr/share/java" recursive="false" />
+  </library>
+</component>
