@@ -1,0 +1,18 @@
+# vim: sts=2 sw=2 et
+# Сделка
+- name: deal
+  id: 10
+  fields:
+    - {name: instrument_id, type: c7}
+    - {name: price, type: double}
+    - {name: volume, type: int64}
+#    - {name: buyer, type: int32}
+#    - {name: seller, type: int32}
+    - {name: other, type: c5}
+# Сбор
+- name: fee
+  id: 11
+  fields:
+    - {name: fee, type: int32}
+    - {name: volume, type: int64}
+

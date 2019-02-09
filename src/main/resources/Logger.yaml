@@ -1,0 +1,5 @@
+logger:
+  type: std
+  levels:
+    ce: ERROR
+    ce.logic: ERROR

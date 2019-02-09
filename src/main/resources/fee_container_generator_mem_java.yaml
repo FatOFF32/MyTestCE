@@ -1,0 +1,67 @@
+jcontainer:
+  opts:
+    -Xmx: 512m
+    -Xms: 32m
+  classpath:
+    - /home/fat/CE/MyTestCE/build/libs/*
+    - /usr/share/java/ce-deps/*
+
+container.include:
+  - yaml://Logger.yaml
+
+timer.speed: 50ms
+container.level:
+  - name: output
+    worker: gen
+    link:
+      - name: output
+        url: mem://;dir=out;size=1024kb;dump=yes;schema=yaml://deal.yaml;poll_timeout=1s
+  - name: generator
+    worker: gen
+    logic:
+      - name: gen
+        url: java://TestContainer$Generator;instruments=GAZP,SBER,LKOH;users=100,200,300,400;limit=-1
+        input: timer
+        output: output
+  - name: input
+    worker: gen
+    link:
+      - name: timer
+        url: timer://;interval=${timer.speed}
+
+#container.level:      
+  # уровень внешних линков
+  - name: out-links
+    worker: fee
+    link:
+      - name: stock_fee
+        url: zmq+inproc://link2;type=dealer;mode=server;schema=yaml://fee.yaml;poll_timeout=1s
+
+  # уровень клиентских линков
+  - name: client-links
+    worker: fee
+    link:
+      - name: flush
+        url: timer://;interval=1s;poll_timeout=1s
+      - name: deal
+        url: mem://;parent=output;schema=yaml://deal.yaml
+      - name: fee
+        url: zmq+inproc://link2;type=router;mode=client;parent=stock_fee;schema=yaml://fee.yaml
+
+  # уровень вывода на экран
+  - name: dump-logic
+    worker: fee
+    logic:
+      - name: dump
+        url: java://TestContainer$Dump
+# url: dump://
+        input: fee
+
+  # уровень логики подсчёта сборов
+  - name: fee-logic
+    worker: fee
+    logic:
+      - name: dues
+        url: java://TestContainer$Dues
+        input: deal,flush
+        output: stock_fee
