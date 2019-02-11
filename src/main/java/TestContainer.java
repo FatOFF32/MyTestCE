@@ -422,7 +422,7 @@ public class TestContainer {
         try{
             switch (field.getType()) {
                 case INT8:
-                    return (T)(Byte) fieldParser.asByte();
+                    return (T) (Byte) fieldParser.asByte();
                 case INT16:
                     return (T) (Short) fieldParser.asShort();
                 case INT32:
