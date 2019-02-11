@@ -352,7 +352,7 @@ public class TestContainer {
         return sb.toString();
     }
 
-    static synchronized void putValueInBuffer(String name, Logic logic, MessageDesc mesDesc, MessageComposer composer,
+    static void putValueInBuffer(String name, Logic logic, MessageDesc mesDesc, MessageComposer composer,
                                         ByteBuffer buff, Supplier<?> func){
 
         Field field = mesDesc.getField(name);
@@ -403,7 +403,7 @@ public class TestContainer {
 
     // Generic на будущее, чтобы не делать cast, и присваивать напрямую (Long vol = getValueFromParser(...);)
     // Но следует понимать, что не все типы могут быть приведены друг к другу.
-    static synchronized <T> T getValueFromParser(String name, Logic logic, MessageDesc mesDesc, MessageParser parser){
+    static <T> T getValueFromParser(String name, Logic logic, MessageDesc mesDesc, MessageParser parser){
 
         Field field = mesDesc.getField(name);
 
